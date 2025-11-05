@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Warm, rustic color palette inspired by cheese and Warmian craftsmanship */
+    --background: 40 40% 96%;
+    --foreground: 28 45% 15%;
+
+    --card: 38 50% 98%;
+    --card-foreground: 28 45% 15%;
+
+    --popover: 38 50% 98%;
+    --popover-foreground: 28 45% 15%;
+
+    /* Warm amber/honey primary color */
+    --primary: 42 78% 60%;
+    --primary-foreground: 40 40% 98%;
+    --primary-hover: 42 78% 52%;
+
+    /* Creamy secondary */
+    --secondary: 40 35% 88%;
+    --secondary-foreground: 28 45% 25%;
+
+    /* Muted cream tones */
+    --muted: 40 30% 92%;
+    --muted-foreground: 28 25% 45%;
+
+    /* Rich accent brown */
+    --accent: 28 45% 25%;
+    --accent-foreground: 40 40% 98%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 40 40% 98%;
+
+    --border: 40 25% 85%;
+    --input: 40 25% 85%;
+    --ring: 42 78% 60%;
+
+    --radius: 0.75rem;
+    
+    /* Custom design tokens */
+    --gradient-warm: linear-gradient(135deg, hsl(42 78% 60%), hsl(40 60% 75%));
+    --gradient-hero: linear-gradient(165deg, hsl(42 78% 60% / 0.95), hsl(28 65% 45% / 0.95));
+    --shadow-warm: 0 4px 20px hsl(42 78% 60% / 0.15);
+    --shadow-card: 0 2px 12px hsl(28 25% 25% / 0.08);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 28 30% 12%;
+    --foreground: 40 40% 95%;
+
+    --card: 28 25% 16%;
+    --card-foreground: 40 40% 95%;
+
+    --popover: 28 25% 16%;
+    --popover-foreground: 40 40% 95%;
+
+    --primary: 42 78% 55%;
+    --primary-foreground: 28 30% 12%;
+    --primary-hover: 42 78% 48%;
+
+    --secondary: 28 20% 22%;
+    --secondary-foreground: 40 40% 95%;
+
+    --muted: 28 15% 20%;
+    --muted-foreground: 40 20% 65%;
+
+    --accent: 42 78% 55%;
+    --accent-foreground: 28 30% 12%;
+
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 40 40% 95%;
+
+    --border: 28 20% 25%;
+    --input: 28 20% 25%;
+    --ring: 42 78% 55%;
+    
+    --gradient-warm: linear-gradient(135deg, hsl(42 78% 50%), hsl(40 50% 40%));
+    --gradient-hero: linear-gradient(165deg, hsl(42 78% 50% / 0.9), hsl(28 55% 35% / 0.9));
+    --shadow-warm: 0 4px 20px hsl(42 78% 50% / 0.2);
+    --shadow-card: 0 2px 12px hsl(0 0% 0% / 0.3);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* helpers */
+.print-only { display: none !important; }
+
+/* Print styles for invoices: keep it to one page when possible */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  /* Improve color fidelity */
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: white !important;
+  }
+
+  /* Hide app chrome */
+  header,
+  [data-sidebar="sidebar"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Expand main content */
+  main, .print-area {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  /* Show only print-only blocks */
+  .print-only { display: block !important; }
+
+  /* Compact invoice typography */
+  .invoice-print { font-size: 12px; line-height: 1.3; }
+
+  /* Put seller and buyer side-by-side */
+  .invoice-print .invoice-parties {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* Ensure content isn't clipped */
+  .invoice-print .overflow-x-auto { overflow: visible !important; }
+
+  /* Inputs look like plain text when printing */
+  .invoice-print input,
+  .invoice-print textarea {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .invoice-print table {
+    page-break-inside: avoid;
+    width: 100% !important;
+  }
+}
